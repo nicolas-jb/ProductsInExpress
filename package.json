@@ -1,0 +1,26 @@
+{
+  "name": "productsinexpress",
+  "version": "1.0.0",
+  "description": "Here is a small example of the coderhouse backend programming course exercise",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolas-jb/ProductsInExpress.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicolas-jb/ProductsInExpress/issues"
+  },
+  "homepage": "https://github.com/nicolas-jb/ProductsInExpress#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

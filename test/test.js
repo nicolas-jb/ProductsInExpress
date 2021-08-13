@@ -41,6 +41,10 @@ async function pruebaGetByPosition(number) {
   console.log(producto1);
 }
 
+async function pruebaModify(number, producto) {
+  const producto1 = await contenedor.modify(number, producto);
+}
+
 async function test() {
   await pruebaDeleteAll();
   await pruebaGetAll();
@@ -63,6 +67,9 @@ async function test() {
   await pruebaGetAll();
   await pruebaGetByPosition(2);
   await pruebaGetByPosition(4);
+  await pruebaModify(7, productoEscuadra)
+  await pruebaGetAll();
+  await pruebaSave(productoCalculadora);
 }
 
 test();

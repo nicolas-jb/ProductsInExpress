@@ -1,3 +1,5 @@
+//This file has the implementation of the 3rd requirement
+
 const productos = require("../src/products.js");
 const express = require("express");
 const app = express();

@@ -1,5 +1,6 @@
 //This file has the implementation of the 4th requirement
-const productos = require("../src/products.js");
+
+const productos = require("../../src/products.js");
 const express = require("express");
 const app = express();
 const PORT = 8080;

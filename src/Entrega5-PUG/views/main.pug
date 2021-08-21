@@ -1,0 +1,24 @@
+html 
+    head 
+        title="PUG - EXPRESS"
+    body 
+        h1 Vista de Productos
+        
+        #exists
+        if exists
+            table
+                tr
+                th Nombre
+                th Precio
+                th Foto
+            #data 
+            each val in data
+                tr
+                td #{val.title}
+                td #{val.price}
+                td img(src="#{val.thumbnail}")
+        else 
+        h2 No Existen Productos
+        
+        
+

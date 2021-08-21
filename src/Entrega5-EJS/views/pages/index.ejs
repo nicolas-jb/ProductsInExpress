@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../partials/head")%>
+  </head>
+  <body>
+    <h1>Vista de Productos</h1>
+    <% if (exists){ %>
+    <table>
+      <tr>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Foto</th>
+      </tr>
+      <% data.forEach(function(product){ %>
+      <tr>
+        <td><%= product.title %></td>
+        <td><%= product.price %></td>
+        <td><img src="<%= product.thumbnail %>" width=75 px height=auto/></td>
+      </tr>
+
+      <% }) %> <% } else {%>
+        <h2>No existen productos</h2>
+        <% } %>
+    </table>
+    
+  </body>
+  <footer><%- include("../partials/footer")%></footer>
+</html>

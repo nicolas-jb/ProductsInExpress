@@ -22,8 +22,8 @@ app.engine(
 );
 
 app.set("view engine", "hbs");
-app.set("views", "./src/Entrega5-Handlebars/views");
-app.use(express.static("./src/Entrega5-Handlebars/public"));
+app.set("views", __dirname + "/views");
+app.use(express.static(__dirname + "/public"));
 
 async function obtenerProductos() {
   return await contenedor.getAll();
@@ -40,11 +40,11 @@ app.get("/agregarProducto", (req, res) => {
 app.post("/agregarProducto", (req, res) => {
   async function unProducto() {
     const producto = req.body;
-    const id = await agregarUnProducto(producto);
-    res.redirect(303, '/vistaProductos');
+    await agregarUnProducto(producto);
+    res.redirect(303, "/vistaProductos");
   }
   unProducto();
-})
+});
 
 app.get("/vistaProductos", (req, res) => {
   async function productos() {
@@ -57,7 +57,6 @@ app.get("/vistaProductos", (req, res) => {
   }
   productos();
 });
-
 
 app.listen(PORT, () => {
   console.log(`Servidor activo en ${PORT}`);

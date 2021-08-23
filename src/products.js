@@ -3,7 +3,7 @@ const fs = require("fs");
 class Contenedor {
   maxIdSaved = 0;
   constructor(nombreArchivo) {
-    this.ruta = `./${nombreArchivo}.txt`;
+    this.ruta = `../../${nombreArchivo}.txt`;
   }
   async getAll() {
     try {

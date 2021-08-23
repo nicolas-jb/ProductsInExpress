@@ -10,8 +10,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "pug");
-app.set("views", "./src/Entrega5-PUG/views");
-app.use(express.static("./src/Entrega5-PUG/public"));
+app.set("views", __dirname + "/views");
+app.use(express.static(__dirname + "/public"));
 
 async function obtenerProductos() {
   return await contenedor.getAll();

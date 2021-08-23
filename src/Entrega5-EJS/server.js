@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
-app.set("views", "./src/Entrega5-EJS/views");
+app.set("views", __dirname + "/views");
 
 
 async function obtenerProductos() {

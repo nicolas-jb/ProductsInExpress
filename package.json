@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "entrega6": "nodemon --inspect ./src/Entrega6/server"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,13 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-handlebars": "^5.3.3",
-    "pug": "^3.0.2"
+    "node-emoji": "^1.11.0",
+    "node-fetch": "^2.6.1",
+    "pug": "^3.0.2",
+    "socket.io": "^4.1.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "nodemon": "^2.0.12"
   }
 }

@@ -1,0 +1,100 @@
+<h1 class="viewTitle">Ingrese un Producto</h1>
+    <form onSubmit="addProduct()">
+      <div><input class="personalForm" type="text" name="title" id="title" placeholder="Ingreso de Título" required></div>
+      <div><input class="personalForm" type="number" name="price" id="price" placeholder="Ingreso de precio" required/></div>
+      <div><input class="personalForm" type="text" name="thumbnail" id="thumbnail" placeholder="Ingreso de ícono" required/></div>
+      <br>
+      <div><button class="myButton" type="submit" id="buttonProducts">Ingrese los datos del producto</button></div>
+      
+    </form>
+    <br>
+
+<h1 class="viewTitle"> Lista de Productos </h1>
+
+<table id="tables"></table>
+<table id="noProducts"></table>
+
+
+<br>
+
+<h1 class="viewTitle"> Centro de mensajes </h1>
+<br>
+
+<div>
+    <div><input class="personalForm" type="email" name="email" id="email" placeholder="Ingrese su email" required></div></div>
+    <br>
+    <div>------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</div>
+    <br>
+    <div id="messages"></div>
+    <div><input class="personalForm" type="text" name="message" id="message" placeholder="Ingrese el mensaje" required></div>
+    <div><button class="myButton" type="submit" id="buttonSend">Enviar Mensaje</button></div>
+</div>
+
+
+<script>
+    const socket = io();
+    
+    function addProduct(){
+        const title = document.getElementById("title").value;
+        const price = document.getElementById("price").value;
+        const thumbnail = document.getElementById("thumbnail").value;
+       
+        socket.emit('newProduct',{title, price, thumbnail})
+    }
+
+    socket.on("newProducts", (products)=>{
+        if(products.length>0){
+            let inner = `             <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Foto</th>
+                        </tr>`;
+        products.map((product) => {
+          inner += `<tr> 
+                <td> ${product.title} </td>
+                <td> ${product.price} </td>
+                <td> <img src="${product.thumbnail}" width=75 px height=auto> </td>
+             </tr>`;
+        });
+        
+        document.getElementById("tables").innerHTML = inner;}
+        else{
+            let inner= `<tr><th class="noProduct">No existen productos</th></tr>`
+            document.getElementById("noProducts").innerHTML = inner;
+        }
+      
+      });
+
+  
+    socket.on("newMessages", (messages)=>{
+    
+    let inner = "";
+    messages.map((message) => {
+        inner += `<div><label class="myEmailFormat"> ${message.email}</label> 
+                  <label class="myTimeFormat"> [${message.time}]:</label> 
+                  <label class="myMessageForma"> ${message.message}</label></div>`;
+    });
+    
+    document.getElementById("messages").innerHTML = inner;
+    });
+
+    buttonSend.addEventListener("click", () => {
+        let email = document.getElementById("email").value;
+        let time = new Date().toLocaleString("es-ar")
+        let message = document.getElementById("message").value;
+
+        if(email == "" || ! email.includes("@")) {
+            alert("Por favor ingrese su email para mandar mensajes")
+        }else if(message == ""){
+            alert("Por favor ingrese el mensaje antes de enviarlo")
+        } 
+        
+        else{
+            socket.emit('newMessage',{email, time, message});
+            document.getElementById("message").value=null;
+        }
+        
+     });
+       
+
+</script>

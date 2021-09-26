@@ -4,6 +4,7 @@ const express = require("express");
 const handlebars = require("express-handlebars");
 const emoji = require("node-emoji");
 const fetch = require("node-fetch");
+const {generateFakeProducts} = require("./productosFake.js")
 
 const {configMariaDB} = require('./configDatabases/configMariaDB.js')
 const {configSQLite} = require('./configDatabases/configSQLite.js')
@@ -46,8 +47,6 @@ app.set("views", __dirname + "/views");
 // eslint-disable-next-line no-undef
 app.use(express.static(__dirname + "/public"));
 
-
-
 app.get("/productos", async (req, res) => {
   res.json(await contenedorProductos.getAll());
 });
@@ -57,10 +56,15 @@ app.get("/", async (req, res) => {
     method: "GET",
   }).then((res) => res.json());
   if (savedProducts.length > 0) {
-    res.render("main", { data: savedProducts, exists: true });
+    res.render("main", { data: savedProducts, exists: true, real: true });
   } else {
-    res.render("main", { data: savedProducts, exists: false });
+    res.render("main", { data: savedProducts, exists: false, real: true });
   }
+});
+
+app.get("/api/productos-test", async (req, res) => {
+  let savedProducts = generateFakeProducts() 
+  res.render("test", { productos: savedProducts})
 });
 
 httpServer.listen(PORT, () => {

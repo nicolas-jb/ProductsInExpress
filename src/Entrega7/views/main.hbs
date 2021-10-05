@@ -1,3 +1,9 @@
+<form action="/logout" method="GET">
+    <strong><label class="viewTitle" >Bienvenido {{this.user}}</label></strong>
+    <button class="myButton" type="submit">Desloguear</button>
+</form>
+
+
 <h1 class="viewTitle">Ingrese un Producto</h1>
     <form onSubmit="addProduct()">
       <div><input class="personalForm" type="text" name="title" id="title" placeholder="Ingreso de Título" required></div>
@@ -64,7 +70,6 @@
         }
       
       });
-
   
     socket.on("newMessages", (messages)=>{
     
@@ -96,5 +101,5 @@
         
      });
        
-
+      
 </script>

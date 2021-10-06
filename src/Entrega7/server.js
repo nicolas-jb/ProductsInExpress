@@ -37,10 +37,11 @@ const session = require("express-session")({
     advancedOptions,
   }),
   secret: process.env.SECRET,
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
+  rolling: true,
   cookie: {
-    maxAge: null,
+    maxAge: MAXAGE,
   },
 });
 
@@ -52,7 +53,7 @@ function auth(req, res, next) {
   if (req.session?.user === undefined || req.session?.user === null) {
     return res.render("login_alert");
   }
-  req.session.cookie.maxAge += MAXAGE;
+  //req.session.cookie.maxAge += MAXAGE;
   return next();
 }
 

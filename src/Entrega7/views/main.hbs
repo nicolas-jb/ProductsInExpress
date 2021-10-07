@@ -72,7 +72,9 @@
       });
   
     socket.on("newMessages", (messages)=>{
-    
+    if (!messages){
+        window.location.href = '/';
+    }else{
     let inner = "";
     messages.map((message) => {
         inner += `<div><label class="myEmailFormat"> ${message.email}</label> 
@@ -80,7 +82,7 @@
                   <label class="myMessageForma"> ${message.message}</label></div>`;
     });
     
-    document.getElementById("messages").innerHTML = inner;
+    document.getElementById("messages").innerHTML = inner;}
     });
 
     buttonSend.addEventListener("click", () => {
@@ -97,6 +99,7 @@
         else{
             socket.emit('newMessage',{email, timeM, message});
             document.getElementById("message").value=null;
+            window.location.href = '/';
         }
         
      });

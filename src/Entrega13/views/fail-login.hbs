@@ -10,15 +10,20 @@
 
 </head>
 
-<body class="bgColor">
+<div class="container text-center my-3">
+    <div class="jumbotron" style="background-color: salmon;color: white;">
+        <h1>ERROR LOGIN</h1>
 
-  <body>
-  <div class="container my-5">
-
-    <div class="jumbotron text-center text-primary">
-      <h1><span class="fa fa-lock"></span> Autenticación</h1>
-      <br>
-      <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Login con Facebook</a>
+        <button class="btn btn-warning my-5" onclick="volver()">VOLVER</button>
     </div>
+</div>
 
-</body>
+<script>
+    function redireccionar(pagina) {
+        location.href = pagina;
+    } 
+
+    function volver() {
+        redireccionar('/login')
+    }
+</script>

@@ -1,51 +1,63 @@
 const express = require("express");
 const handlebars = require("express-handlebars");
 const emoji = require("node-emoji");
-//const fetch = require("node-fetch");
 const { generateFakeProducts } = require("./productosFake.js");
-const MongoStore = require("connect-mongo");
 const dotenv = require("dotenv");
+const passport = require("passport");
+const FacebookStrategy = require("passport-facebook").Strategy;
+const session = require("express-session");
+
 dotenv.config({ path: __dirname + "/.env" });
+
+
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_ID,
+      clientSecret: process.env.FACEBOOK_SECRET,
+      callbackURL: "/auth/facebook/callback",
+      profileFields: ["id", "displayName", "photos"],
+      scope: ["email"],
+    },
+    (accessToken, refreshToken, userProfile, done) => {
+      return done(null, userProfile);
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+passport.deserializeUser((id, done) => {
+  done(null, id);
+});
 
 const app = express();
 const PORT = 8080;
 const MAXAGE = 10 * 60 * 1000; //10 minutes in ms
-const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
-
-const session = require("express-session")({
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGOURI,
-    advancedOptions,
-  }),
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: false,
-  rolling: true,
-  cookie: {
-    maxAge: MAXAGE,
-  },
-});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(session);
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: true,
+    rolling: true,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: MAXAGE,
+    },
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
-function initFakeProducts() {
-  const fakeProd = [];
-  for (let index = 0; index < 5; index++) {
-    fakeProd.push(generateFakeProducts());
-  }
-
-  return fakeProd;
-}
-
-let productosFake = initFakeProducts();
-
+//Middleware de control
 async function auth(req, res, next) {
-  if (req.session?.user === undefined || req.session?.user === null) {
-    await res.render("login_alert");
-  } else {
+  if (req.isAuthenticated()) {
     next();
+  } else {
+    res.render("login_alert");
   }
 }
 
@@ -67,37 +79,51 @@ app.set("views", __dirname + "/views");
 // eslint-disable-next-line no-undef
 app.use(express.static(__dirname + "/public"));
 
-app.get("/login", async (req, res) => {
-  if (req.query.user !== undefined || req.query.user != null) {
-    req.session.user = req.query.user;
-    activeConnection = false;
-
-    return res.redirect("/");
-  } else {
-    return res.render("login");
+function initFakeProducts() {
+  const fakeProd = [];
+  for (let index = 0; index < 5; index++) {
+    fakeProd.push(generateFakeProducts());
   }
+
+  return fakeProd;
+}
+
+let productosFake = initFakeProducts();
+
+app.get("/login", (req, res) => {
+  return res.render("login");
+});
+
+app.get("/auth/facebook", passport.authenticate("facebook"));
+
+app.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", {
+    successRedirect: "/",
+    failureRedirect: "/faillogin",
+  })
+);
+
+app.get("/faillogin", (req, res) => {
+  res.render("fail-login");
 });
 
 app.get("/logout", auth, (req, res) => {
-  const user = req.session.user;
-  req.session.destroy((err) => {
-    if (!err) {
-      res.render("logout", { user: user });
-    } else {
-      res.json({ err });
-    }
-  });
+  const userName = req.user.displayName;
+  req.logout();
+  res.render("logout", { user: userName });
 });
 
-app.get("/", auth, async (req, res) => {
+app.get("/", auth, (req, res) => {
   res.status(200).render("main", {
     data: productosFake,
-    user: req.session.user,
+    userName: req.user.displayName,
+    userPhoto: req.user.photos[0].value,
   });
 });
 
-app.post("/", auth, async (req, res) => {
-  productosFake.push(generateFakeProducts())
+app.post("/", auth, (req, res) => {
+  productosFake.push(generateFakeProducts());
   res.status(200).render("main", {
     data: productosFake,
     user: req.session.user,

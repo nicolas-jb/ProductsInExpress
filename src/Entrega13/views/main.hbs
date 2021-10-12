@@ -1,9 +1,14 @@
 <form action="/logout" method="GET">
-  <strong><label class="viewTitle">Bienvenido {{this.user}}</label></strong>
-  <button class="myButton" type="submit">Desloguear</button>
+  <button class="logoutButton" type="submit">Desloguear</button>
+  <br><br>  
+  <strong><label class="viewTitle">Bienvenido
+      {{this.userName}}
+    </label></strong>
+    <img src="{{this.userPhoto}}" width="150"  align="left"/>
+    <br><br><br><br><br><br><br>
+  
 </form>
-
-<h1 class="viewTitle">Ingrese un Producto</h1>
+<h1 class="viewTitle">Ingrese un Producto</h1> 
 <form method="post" action="/">
   <div><button class="myButton" type="submit" id="buttonProducts">Ingrese un
       nuevo producto fake</button></div>

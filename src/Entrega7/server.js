@@ -78,6 +78,12 @@ app.engine(
   })
 );
 
+app.use(function(req, res, next) {
+  if (!req.user)
+      res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  next();
+});
+
 app.set("view engine", "hbs");
 // eslint-disable-next-line no-undef
 app.set("views", __dirname + "/views");

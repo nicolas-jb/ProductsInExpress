@@ -54,6 +54,7 @@ app.use(passport.session());
 
 //Middleware de control
 async function auth(req, res, next) {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
   if (req.isAuthenticated()) {
     next();
   } else {

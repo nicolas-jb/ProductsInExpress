@@ -8,7 +8,7 @@ const randoms = fork("randomsNumbers.js");
 routerFork.get("/", (req, res) => {
   const cantidad = Number(req.query.cant) || 100e6;
   randoms.on("message", (resultado) => {
-    return res.status(200).json(resultado);
+    res.end(JSON.stringify(resultado));
   });
   randoms.send(cantidad);
 });

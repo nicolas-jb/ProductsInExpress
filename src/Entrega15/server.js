@@ -9,9 +9,25 @@ const passport = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
 const session = require("express-session");
 const parseArgs = require("minimist");
+const { argv } = require("process");
 const { routerFork } = require("./routerFork.js");
 const cluster = require("cluster");
 const numCPUs = require("os").cpus().length;
+
+/* ----------------------------------------------------------------------------- */
+/* --------------------------------- Arguments --------------------------------- */
+const options = {
+  alias: {
+    p: "port",
+    m: "mode",
+  },
+  default: {
+    port: 8080,
+    modo: "fork",
+  },
+};
+
+const { port, mode } = parseArgs(argv, options);
 
 /* -------------------------------------------------------------------------- */
 /* --------------------------------- Config --------------------------------- */
@@ -41,10 +57,6 @@ passport.deserializeUser((id, done) => {
 });
 
 const app = express();
-const args = parseArgs(process.argv.slice(2));
-const PORT = isNaN(args._[0]) ? 8080 : args._[0];
-let mode = isNaN(args._[0]) ? args._[0] || "FORK" : args._[1] || "FORK";
-mode = mode.toUpperCase();
 const MAXAGE = 10 * 60 * 1000; //10 minutes in ms
 
 app.use(express.json());
@@ -63,7 +75,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/api/randoms", auth, routerFork);
+app.use("/api/randoms", routerFork);
 
 /* -------------------------------------------------------------------------- */
 /* -------------------------- Middleware de control ------------------------- */
@@ -115,7 +127,7 @@ let productosFake = initFakeProducts();
 /* -------------------------------------------------------------------------- */
 /* --------------------------------- Routes --------------------------------- */
 
-if (mode == "CLUSTER" && cluster.isMaster){
+if (mode == "cluster" && cluster.isMaster){
   console.log('Master is running');
   for (let i = 0; i < numCPUs; i++){
     cluster.fork()
@@ -164,10 +176,10 @@ app.post("/", auth, (req, res) => {
   });
 });
 
-app.get("/info", auth, (req, res) => {
+app.get("/api/info", (req, res) => {
   const folder = process.cwd().split("/").pop();
   res.status(200).json({
-    "Argumentos de entrada": args._,
+    "Argumentos de entrada": process.argv.slice(2),
     "Plataforma": process.platform,
     "Número de Procesadores": numCPUs,
     "Versión Node": process.version,
@@ -181,8 +193,8 @@ app.get("/info", auth, (req, res) => {
 /* -------------------------------------------------------------------------- */
 /* -------------------------------- Server On ------------------------------- */
 
-app.listen(PORT, () => {
-  console.log(`${emoji.get("computer")} Servidor activo en ${PORT}`);
+app.listen(port, () => {
+  console.log(`${emoji.get("computer")} Servidor activo en ${port}`);
 });
 }
 /* -------------------------------------------------------------------------- */

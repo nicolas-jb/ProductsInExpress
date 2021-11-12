@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/nicolas-jb/ProductsInExpress#readme",
   "dependencies": {
+    "compression": "^1.7.4",
     "connect-mongo": "^4.6.0",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
@@ -31,6 +32,7 @@
     "express-session": "^1.17.2",
     "faker": "^5.5.3",
     "knex": "^0.95.11",
+    "log4js": "^6.3.0",
     "minimist": "^1.2.5",
     "mongodb": "^4.1.2",
     "mysql2": "^2.3.0",

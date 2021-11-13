@@ -104,3 +104,6 @@ dist
 .tern-port
 
 .vscode
+
+result_prof_con_console_log.txt
+result_prof_sin_console_log.txt

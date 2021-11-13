@@ -17,6 +17,16 @@ routerApi.get("/randoms", (req, res) => {
 routerApi.get("/info", (req, res) => {
   loggerConsole.info(`RUTA: ${req.url} MÉTODO: ${req.method}`);
   const folder = process.cwd().split("/").pop();
+  
+  /*console.log("Argumentos de entrada:", process.argv.slice(2))
+  console.log("Plataforma:", process.platform)
+  console.log("Número de Procesadores:", numCPUs)
+  console.log("Versión Node:",process.version)
+  console.log("Memoria total reservada (rss):", process.memoryUsage().rss)
+  console.log("Path de ejecución:", process.cwd())
+  console.log("Process id:",process.pid)
+  console.log("Carpeta del proyecto:", folder)*/
+  
   res.status(200).send(
     JSON.stringify({
       "Argumentos de entrada": process.argv.slice(2),

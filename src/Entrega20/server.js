@@ -17,7 +17,9 @@ import { Router } from "express";
 const  router = new Router();
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import productoDAOFactory from "./persistencia/productoDAOFactory.js";
 
+const productoDAO = productoDAOFactory.getDao()
 const FacebookStrategy = pf.Strategy;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -143,7 +145,7 @@ function initFakeProducts() {
   return fakeProd;
 }
 
-let productosFake = initFakeProducts();
+productoDAO.add(initFakeProducts());
 
 /* -------------------------------------------------------------------------- */
 /* --------------------------------- Routes --------------------------------- */
@@ -185,20 +187,20 @@ if (mode == "cluster" && cluster.isMaster) {
     res.render("logout", { user: userName });
   });
 
-  router.get("/", auth, (req, res) => {
+  router.get("/", auth, async (req, res) => {
     loggerConsole.info(`RUTA: ${req.url} MÉTODO: ${req.method}`);
     res.status(200).render("main", {
-      data: productosFake,
+      data: await productoDAO.get(),
       userName: req.user.displayName,
       userPhoto: req.user.photos[0].value,
     });
   });
 
-  router.post("/", auth, (req, res) => {
-    productosFake.push(generateFakeProducts());
+  router.post("/", auth, async (req, res) => {
+    productoDAO.add(generateFakeProducts());
     loggerConsole.info(`RUTA: ${req.url} MÉTODO: ${req.method}`);
     res.status(200).render("main", {
-      data: productosFake,
+      data: await productoDAO.get(),
       user: req.session.user,
     });
   });

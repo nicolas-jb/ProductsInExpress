@@ -1,33 +1,21 @@
-import productoDAOFile from "./productoDAOFile.js";
-import productoDAODb from "./productoDAODb.js";
-import productoDAOMem from "./productoDAOMem.js";
-import dotenv from "dotenv"
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
-
-
-
-const rutaArchivoProductos = "./productos.txt";
-const cnxStr = process.env.MONGOURI; 
+import SingletonFile from "./Singletons/singletonFile.js";
+import SingletonMem from "./Singletons/singletonMem.js";
+import SingletonDB from "./Singletons/singletonDB.js";
 
 const opcion = process.argv[2] || "Mem";
 
 let dao;
-switch (opcion.toLowerCase()) {   /// FALTA HACER QUE DEVUELVA SINGLETON
+switch (opcion.toLowerCase()) {
   case "mongo":
-    dao = new productoDAODb(cnxStr);
+    dao = new SingletonDB().getDao();
     await dao.init();
     break;
   case "file":
-    dao = new productoDAOFile(rutaArchivoProductos);
+    dao = new SingletonFile().getDao();
     await dao.init();
     break;
   default:
-    dao = new productoDAOMem();
+    dao = new SingletonMem().getDao();
     dao.init();
 }
 

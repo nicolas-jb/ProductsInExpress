@@ -30,4 +30,17 @@ export default class ProductoDAOMem {
     return this.productos
   }
 
+  delete(title){
+    this.productos.pop();
+    return this.productos
+  }
+
+  modify(title, producto) {
+      this.productos[0] = producto
+  }
+
+  limpiar(){
+    this.productos = []
+  }
+
 }

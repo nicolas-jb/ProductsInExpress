@@ -28,24 +28,6 @@ app.use("/api/", routerApi);
 /* -------------------------------------------------------------------------- */
 /* ------------------------------- Handlebars ------------------------------- */
 
-app.engine(
-  "hbs",
-  handlebars({
-    extname: ".hbs",
-    defaultLayout: "index.hbs",
-    // eslint-disable-next-line no-undef
-    layoutsDir: __dirname + "/views/layouts",
-    // eslint-disable-next-line no-undef
-    partialsDir: __dirname + "/views/partials",
-  })
-);
-
-app.set("view engine", "hbs");
-// eslint-disable-next-line no-undef
-app.set("views", __dirname + "/views");
-// eslint-disable-next-line no-undef
-app.use(express.static(__dirname + "/public"));
-
 app.use((req, res) => {
   res.status(404).json({
     descripción: `ruta ${req.url} método ${req.method} no implementado`,

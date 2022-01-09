@@ -1,0 +1,52 @@
+<form action="/api/logout" method="GET">
+  <button class="logoutButton" type="submit">Desloguear</button>
+  <br /><br />
+  <strong><label class="viewTitle">Bienvenido!</label></strong>
+  <br /><br />
+</form>
+<hr class="line" />
+<a href="/api/info">
+  <input type="button" class="myButton" value="View Server Info" />
+</a>
+<br /><br />
+<strong><label class="viewTitle">Ingrese un número</label></strong>
+<form method="get" action="/api/randoms?do=search">
+  <input
+    class="myInput"
+    name="cant"
+    type="number"
+    value="200"
+    min="1"
+    placeholder="200"
+  />
+  <br />
+  
+  <button class="myButton" type="submit">Generar Randoms</button>
+</form>
+<hr class="line" />
+<h1 class="viewTitle">Ingrese un Producto</h1>
+<form method="post" action="/api/">
+  <div><button class="myButton" type="submit" id="buttonProducts">Ingrese un
+      nuevo producto fake</button></div>
+</form>
+<br />
+
+<h1 class="viewTitle"> Vista de Productos </h1>
+{{#if exists}}
+  <table>
+    <tr>
+      <th>Nombre</th>
+      <th>Precio</th>
+      <th>Foto</th>
+    </tr>
+    {{#each data}}
+      <tr>
+        <td>{{this.title}}</td>
+        <td>{{this.price}}</td>
+        <td><img src="{{this.thumbnail}}" width="75" px height="auto" /></td>
+      </tr>
+    {{/each}}
+  </table>
+{{else}}
+  <h1 class="noProduct">No existen productos</h1>
+{{/if}}

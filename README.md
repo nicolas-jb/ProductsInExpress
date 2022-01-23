@@ -1,4 +1,4 @@
-<img src="icon.png" align="right" />
+<img src="coderhouse.png" align="right" />
 
 # ProductsInExpress
 

@@ -105,7 +105,9 @@ Check on the /info route with and without compression, the difference in the num
 
 	Consider the following criteria:
 ● Log all levels to console (info, warning and error)
+
 ● Record only the warning logs to a file called warn.log
+
 ● Send only the error logs to a file called error.log
 
 	Then, perform the complete analysis of the performance of the server with which we come working.

@@ -104,11 +104,13 @@ Check on the /info route with and without compression, the difference in the num
 	- Errors thrown by message and product apis, only (error)
 
 	Consider the following criteria:
+
 ● Log all levels to console (info, warning and error)
 
 ● Record only the warning logs to a file called warn.log
 
 ● Send only the error logs to a file called error.log
+
 
 	Then, perform the complete analysis of the performance of the server with which we come working.
 We are going to work on the '/info' route, in fork mode, adding or extracting a console.log from the information collected before returning it to the client. In addition we will disable the child_process of the route '/randoms'

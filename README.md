@@ -112,18 +112,19 @@ Check on the /info route with and without compression, the difference in the num
 ● Send only the error logs to a file called error.log
 
 
-	Then, perform the complete analysis of the performance of the server with which we come working.
+Then, perform the complete analysis of the performance of the server with which we come working.
 We are going to work on the '/info' route, in fork mode, adding or extracting a console.log from the information collected before returning it to the client. In addition we will disable the child_process of the route '/randoms'
+
 For both conditions (with or without console.log) in path '/info' GET:
 	- The profiling of the server, performing the test with --prof of node.js. Analyze the results obtained after processing them with --prof-process.
 	- We will use **Artillery** as a command line load test, emulating 50 concurrent connections with 20 requests for each one. Extract a report with the results in a text file.
 
-	We will then use **Autocannon** on the command line, emulating 100 concurrent connections made in a time of 20 seconds. 
+We will then use **Autocannon** on the command line, emulating 100 concurrent connections made in a time of 20 seconds. 
 
-	Server profiling with node.js inspector mode --inspect. Check process time
+Server profiling with node.js inspector mode --inspect. Check process time
 Less performant on the inspection source file.
 
-	The flame diagram with **0x**, emulating the load with ***Autocannon*** with the same parameters as above.
+The flame diagram with **0x**, emulating the load with ***Autocannon*** with the same parameters as above.
 
 - [Entrega19](https://github.com/nicolas-jb/ProductsInExpress/tree/main/src/Entrega19) - Divide the deliverable project with which we have been working into layers, properly grouping the routing, controller, business logic and persistence layers.  
 

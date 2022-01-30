@@ -154,3 +154,5 @@ Use ***GraphiQL*** to perform functional testing of queries and mutations.
 - [Entrega23-koa](https://github.com/nicolas-jb/ProductsInExpress/tree/main/src/Entrega23-koa) - Move the current project to the **KOA** framework
 
 - [Entrega23-sails](https://github.com/nicolas-jb/ProductsInExpress/tree/main/src/Entrega23-sails) - Move the current project to the **SAILS** framework
+
+- [Entrega24-deno](https://github.com/nicolas-jb/ProductsInExpress/tree/main/src/Entrega24) - Small Example with servest and colors in **DENO**
